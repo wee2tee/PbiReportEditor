@@ -346,7 +346,7 @@ namespace PbiReportEditor
 					this.TextArea.EmptyUndoBuffer();
 					this.curr_file_path = path;
 					lblFileName.Text = this.curr_file_path; //Path.GetFileName(path);
-					this.btnSave.Enabled = true;
+					//this.btnSave.Enabled = true;
 					this.btnCloseFile.Enabled = true;
 					this.btnUndo.Enabled = true;
 					this.btnRedo.Enabled = true;
@@ -712,7 +712,25 @@ namespace PbiReportEditor
 
             if (ofd.ShowDialog() == DialogResult.OK)
             {
+				if((this.curr_file_path == null && this.TextArea.Text.Trim().Length > 0) ||
+					(this.curr_file_path != null && !File.Exists(this.curr_file_path)) ||
+					(this.curr_file_path != null && File.Exists(this.curr_file_path) && this.TextArea.Text.CompareTo(File.ReadAllText(this.curr_file_path).AES_Decrypt(salt)) != 0))
+				{
+					DialogResult result = MessageBox.Show("บันทึกแฟ้มข้อมูลปัจจุบันนี้ก่อนหรือไม่?", "Save File", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+					switch (result)
+					{
+						case DialogResult.Yes:
+							this.btnSave.PerformClick();
+							break;
+						case DialogResult.No:
+							break;
+						default:
+							return; ;
+					}
+				}
 				this.LoadDataFromFile(ofd.FileName);
+
+
                 //string source_content = File.ReadAllText(ofd.FileName);
                 //string decrypted_content = source_content.AES_Decrypt(salt);
                 //this.TextArea.Text = decrypted_content;
@@ -724,7 +742,21 @@ namespace PbiReportEditor
 			try
 			{
 				if (this.curr_file_path != null)
+				{
 					File.WriteAllText(this.curr_file_path, this.TextArea.Text.AES_Encrypt(salt));
+				}
+				else
+				{
+					SaveFileDialog sfd = new SaveFileDialog();
+					sfd.Filter = "Report file(*.rpbi)|*.rpbi";
+					sfd.DefaultExt = "rpbi";
+					if (sfd.ShowDialog() == DialogResult.OK)
+					{
+						this.curr_file_path = sfd.FileName;
+						File.WriteAllText(this.curr_file_path, this.TextArea.Text.AES_Encrypt(salt));
+						this.lblFileName.Text = this.curr_file_path;
+					}
+				}
 			}
 			catch (Exception ex)
 			{
@@ -734,7 +766,9 @@ namespace PbiReportEditor
 
 		private void btnCloseFile_Click(object sender, EventArgs e)
 		{
-			if(this.curr_file_path == null && this.TextArea.Text.Trim().Length > 0) // Save new file
+			if((this.curr_file_path == null && this.TextArea.Text.Trim().Length > 0) ||
+				(this.curr_file_path != null && !File.Exists(this.curr_file_path)) ||
+				(this.curr_file_path != null && File.Exists(this.curr_file_path) && this.TextArea.Text.CompareTo(File.ReadAllText(this.curr_file_path).AES_Decrypt(salt)) != 0))
 			{
 				DialogResult result = MessageBox.Show("บันทึกแฟ้มนี้หรือไม่?", "Save File", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
 				switch (result)
@@ -742,63 +776,26 @@ namespace PbiReportEditor
 					case DialogResult.Cancel:
 						return;
 					case DialogResult.Yes:
-						SaveFileDialog sfd = new SaveFileDialog();
-						sfd.Filter = "Report file(*.rpbi)|*.rpbi";
-						sfd.DefaultExt = "rpbi";
-						if(sfd.ShowDialog() == DialogResult.OK)
-						{
-							//File.WriteAllText(sfd.FileName, this.TextArea.Text.AES_Encrypt(salt));
-							this.curr_file_path = sfd.FileName;
-							this.SaveFile();
-						}
+						this.btnSave.PerformClick();
 						break;
 					case DialogResult.No:
 						break;
 					default:
 						return;
 				}
-
-				this.curr_file_path = null;
-				this.lblFileName.Text = string.Empty;
-				this.btnSave.Enabled = false;
-				this.btnCloseFile.Enabled = false;
-				this.btnUndo.Enabled = false;
-				this.btnRedo.Enabled = false;
-				this.btnExpandAll.Enabled = false;
-				this.btnCollapseAll.Enabled = false;
-				this.TextArea.Text = string.Empty;
 			}
-			else // Update existing file
-			{
-				if(!File.Exists(this.curr_file_path) || this.TextArea.Text.CompareTo(File.ReadAllText(this.curr_file_path).AES_Decrypt(salt)) != 0)
-				{
-					DialogResult result = MessageBox.Show("บันทึกแฟ้มนี้หรือไม่?", "Save File", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
-					switch (result)
-					{
-						case DialogResult.Cancel:
-							return;
-						case DialogResult.Yes:
-							//File.WriteAllText(this.curr_file_path, this.TextArea.Text.AES_Encrypt(salt));
-							this.SaveFile();
-							break;
-						case DialogResult.No:
-							break;
-						default:
-							return;
-					}
-				}
 
-                this.curr_file_path = null;
-                this.lblFileName.Text = string.Empty;
-                this.btnSave.Enabled = false;
-                this.btnCloseFile.Enabled = false;
-				this.btnUndo.Enabled = false;
-				this.btnRedo.Enabled = false;
-				this.btnExpandAll.Enabled = false;
-				this.btnCollapseAll.Enabled = false;
-				this.TextArea.Text = string.Empty;
-            }
-        }
+			this.curr_file_path = null;
+			this.lblFileName.Text = string.Empty;
+			//this.btnSave.Enabled = false;
+			this.btnCloseFile.Enabled = false;
+			this.btnUndo.Enabled = false;
+			this.btnRedo.Enabled = false;
+			this.btnExpandAll.Enabled = false;
+			this.btnCollapseAll.Enabled = false;
+			this.TextArea.Text = string.Empty;
+
+		}
 
 		private void btnUndo_Click(object sender, EventArgs e)
 		{
@@ -812,42 +809,36 @@ namespace PbiReportEditor
 
 		private void btnNewFile_Click(object sender, EventArgs e)
 		{
-			if(this.curr_file_path != null)
+			if((this.curr_file_path == null && this.TextArea.Text.Trim().Length > 0) ||
+				(this.curr_file_path != null && !File.Exists(this.curr_file_path)) ||
+				(this.curr_file_path != null && File.Exists(this.curr_file_path) && this.TextArea.Text.CompareTo(File.ReadAllText(this.curr_file_path).AES_Decrypt(salt)) != 0))
 			{
-				if((!File.Exists(this.curr_file_path) && this.TextArea.Text.Trim().Length > 0) || (File.Exists(this.curr_file_path) && this.TextArea.Text.CompareTo(File.ReadAllText(this.curr_file_path).AES_Decrypt(salt)) != 0))
-				{
-					DialogResult result = MessageBox.Show("", "Save File", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
-					switch (result)
-					{
-						case DialogResult.Cancel:
-							return;
-						case DialogResult.Yes:
-							break;
-						case DialogResult.No:
-							break;
-						default:
-							break;
-					}
-				}
+                DialogResult result = MessageBox.Show("บันทึกแฟ้มข้อมูลปัจจุบันนี้ก่อนหรือไม่?", "Save File", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                switch (result)
+                {
+                    case DialogResult.Cancel:
+                        return;
+                    case DialogResult.Yes:
+                        this.btnSave.PerformClick();
+                        break;
+                    case DialogResult.No:
+                        break;
+                    default:
+                        return; ;
+                }
+            }
 
-				this.btnSave.PerformClick();
-				this.btnCloseFile.PerformClick();
+            this.curr_file_path = null;
+            //this.btnSave.Enabled = true;
+            this.btnCloseFile.Enabled = true;
+            this.btnUndo.Enabled = true;
+            this.btnRedo.Enabled = true;
+            this.btnExpandAll.Enabled = true;
+            this.btnCollapseAll.Enabled = true;
+            this.TextArea.Text = string.Empty;
+        }
 
-			}
-			else
-			{
-				this.curr_file_path = null;
-				this.btnSave.Enabled = true;
-				this.btnCloseFile.Enabled = true;
-				this.btnUndo.Enabled = true;
-				this.btnRedo.Enabled = true;
-				this.btnExpandAll.Enabled = true;
-				this.btnCollapseAll.Enabled = true;
-				this.TextArea.Text = string.Empty;
-			}
-		}
-
-		private void btnExpandAll_Click(object sender, EventArgs e)
+        private void btnExpandAll_Click(object sender, EventArgs e)
 		{
 			this.ExpandAll();
 		}
