@@ -83,6 +83,26 @@ namespace PbiReportEditor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap collapse_16 {
+            get {
+                object obj = ResourceManager.GetObject("collapse_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap expand_16 {
+            get {
+                object obj = ResourceManager.GetObject("expand_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap folder_open_16 {
             get {
                 object obj = ResourceManager.GetObject("folder_open_16", resourceCulture);

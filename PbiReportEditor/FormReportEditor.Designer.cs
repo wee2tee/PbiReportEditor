@@ -47,6 +47,8 @@
             this.btnCloseFile = new System.Windows.Forms.ToolStripButton();
             this.btnUndo = new System.Windows.Forms.ToolStripButton();
             this.btnRedo = new System.Windows.Forms.ToolStripButton();
+            this.btnExpandAll = new System.Windows.Forms.ToolStripButton();
+            this.btnCollapseAll = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.PanelSearch.SuspendLayout();
@@ -60,9 +62,11 @@
             this.toolStripSeparator1,
             this.btnSave,
             this.btnCloseFile,
-            this.toolStripSeparator2,
             this.btnUndo,
-            this.btnRedo});
+            this.btnRedo,
+            this.toolStripSeparator2,
+            this.btnExpandAll,
+            this.btnCollapseAll});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(977, 25);
@@ -192,7 +196,7 @@
             this.btnNewFile.Name = "btnNewFile";
             this.btnNewFile.Size = new System.Drawing.Size(23, 22);
             this.btnNewFile.Text = "Create new file";
-            this.btnNewFile.ToolTipText = "Create new file <Ctrl + N>";
+            this.btnNewFile.ToolTipText = "สร้างแฟ้มรายงานใหม่ <Ctrl + N>";
             this.btnNewFile.Click += new System.EventHandler(this.btnNewFile_Click);
             // 
             // btnOpenFile
@@ -203,7 +207,7 @@
             this.btnOpenFile.Name = "btnOpenFile";
             this.btnOpenFile.Size = new System.Drawing.Size(23, 22);
             this.btnOpenFile.Text = "Open report file";
-            this.btnOpenFile.ToolTipText = "Open report file <Ctrl + O>";
+            this.btnOpenFile.ToolTipText = "เปิดแฟ้มรายงาน <Ctrl + O>";
             this.btnOpenFile.Click += new System.EventHandler(this.btnOpenFile_Click);
             // 
             // btnSave
@@ -215,7 +219,7 @@
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(23, 22);
             this.btnSave.Text = "Save";
-            this.btnSave.ToolTipText = "Save <Ctrl + S>";
+            this.btnSave.ToolTipText = "บันทึก <Ctrl + S>";
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnCloseFile
@@ -227,7 +231,7 @@
             this.btnCloseFile.Name = "btnCloseFile";
             this.btnCloseFile.Size = new System.Drawing.Size(23, 22);
             this.btnCloseFile.Text = "Close";
-            this.btnCloseFile.ToolTipText = "Close <Ctrl + X>";
+            this.btnCloseFile.ToolTipText = "ปิดแฟ้มรายงานนี้ <Ctrl + X>";
             this.btnCloseFile.Click += new System.EventHandler(this.btnCloseFile_Click);
             // 
             // btnUndo
@@ -239,7 +243,7 @@
             this.btnUndo.Name = "btnUndo";
             this.btnUndo.Size = new System.Drawing.Size(23, 22);
             this.btnUndo.Text = "Undo";
-            this.btnUndo.ToolTipText = "Undo <Ctrl + Z>";
+            this.btnUndo.ToolTipText = "ยกเลิกการทำล่าสุด <Ctrl + Z>";
             this.btnUndo.Click += new System.EventHandler(this.btnUndo_Click);
             // 
             // btnRedo
@@ -251,8 +255,30 @@
             this.btnRedo.Name = "btnRedo";
             this.btnRedo.Size = new System.Drawing.Size(23, 22);
             this.btnRedo.Text = "Redo";
-            this.btnRedo.ToolTipText = "Redo <Ctrl + Y>";
+            this.btnRedo.ToolTipText = "ทำซ้ำ <Ctrl + Y>";
             this.btnRedo.Click += new System.EventHandler(this.btnRedo_Click);
+            // 
+            // btnExpandAll
+            // 
+            this.btnExpandAll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnExpandAll.Enabled = false;
+            this.btnExpandAll.Image = global::PbiReportEditor.Properties.Resources.expand_16;
+            this.btnExpandAll.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnExpandAll.Name = "btnExpandAll";
+            this.btnExpandAll.Size = new System.Drawing.Size(23, 22);
+            this.btnExpandAll.Text = "ขยายออกทั้งหมด";
+            this.btnExpandAll.Click += new System.EventHandler(this.btnExpandAll_Click);
+            // 
+            // btnCollapseAll
+            // 
+            this.btnCollapseAll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnCollapseAll.Enabled = false;
+            this.btnCollapseAll.Image = global::PbiReportEditor.Properties.Resources.collapse_16;
+            this.btnCollapseAll.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnCollapseAll.Name = "btnCollapseAll";
+            this.btnCollapseAll.Size = new System.Drawing.Size(23, 22);
+            this.btnCollapseAll.Text = "ย่อทั้งหมด";
+            this.btnCollapseAll.Click += new System.EventHandler(this.btnCollapseAll_Click);
             // 
             // FormReportEditor
             // 
@@ -299,5 +325,7 @@
         private System.Windows.Forms.ToolStripButton btnNewFile;
         private System.Windows.Forms.ToolStripButton btnUndo;
         private System.Windows.Forms.ToolStripButton btnRedo;
+        private System.Windows.Forms.ToolStripButton btnExpandAll;
+        private System.Windows.Forms.ToolStripButton btnCollapseAll;
     }
 }

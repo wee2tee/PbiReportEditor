@@ -350,7 +350,8 @@ namespace PbiReportEditor
 					this.btnCloseFile.Enabled = true;
 					this.btnUndo.Enabled = true;
 					this.btnRedo.Enabled = true;
-
+					this.btnExpandAll.Enabled = true;
+					this.btnCollapseAll.Enabled = true;
 				}
 				catch (Exception ex)
 				{
@@ -665,6 +666,16 @@ namespace PbiReportEditor
 		{
 			this.btnCloseFile.PerformClick();
 		}
+
+		private void ExpandAll()
+		{
+			this.TextArea.FoldAll(FoldAction.Expand);
+		}
+
+		private void CollapseAll()
+		{
+			this.TextArea.Lines.ToList().ForEach(l => l.FoldChildren(FoldAction.Contract));
+		}
 		#endregion
 
 
@@ -753,6 +764,8 @@ namespace PbiReportEditor
 				this.btnCloseFile.Enabled = false;
 				this.btnUndo.Enabled = false;
 				this.btnRedo.Enabled = false;
+				this.btnExpandAll.Enabled = false;
+				this.btnCollapseAll.Enabled = false;
 				this.TextArea.Text = string.Empty;
 			}
 			else // Update existing file
@@ -781,6 +794,8 @@ namespace PbiReportEditor
                 this.btnCloseFile.Enabled = false;
 				this.btnUndo.Enabled = false;
 				this.btnRedo.Enabled = false;
+				this.btnExpandAll.Enabled = false;
+				this.btnCollapseAll.Enabled = false;
 				this.TextArea.Text = string.Empty;
             }
         }
@@ -826,8 +841,20 @@ namespace PbiReportEditor
 				this.btnCloseFile.Enabled = true;
 				this.btnUndo.Enabled = true;
 				this.btnRedo.Enabled = true;
+				this.btnExpandAll.Enabled = true;
+				this.btnCollapseAll.Enabled = true;
 				this.TextArea.Text = string.Empty;
 			}
+		}
+
+		private void btnExpandAll_Click(object sender, EventArgs e)
+		{
+			this.ExpandAll();
+		}
+
+		private void btnCollapseAll_Click(object sender, EventArgs e)
+		{
+			this.CollapseAll();
 		}
 	}
 }
