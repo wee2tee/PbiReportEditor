@@ -32,6 +32,7 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblFileName = new System.Windows.Forms.ToolStripStatusLabel();
@@ -49,6 +50,8 @@
             this.btnRedo = new System.Windows.Forms.ToolStripButton();
             this.btnExpandAll = new System.Windows.Forms.ToolStripButton();
             this.btnCollapseAll = new System.Windows.Forms.ToolStripButton();
+            this.btnRegister = new System.Windows.Forms.ToolStripButton();
+            this.btnPreview = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.PanelSearch.SuspendLayout();
@@ -66,7 +69,10 @@
             this.btnRedo,
             this.toolStripSeparator2,
             this.btnExpandAll,
-            this.btnCollapseAll});
+            this.btnCollapseAll,
+            this.btnRegister,
+            this.toolStripSeparator3,
+            this.btnPreview});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(977, 25);
@@ -82,6 +88,12 @@
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
             // 
             // statusStrip1
             // 
@@ -159,6 +171,7 @@
             this.BtnNextSearch.TabIndex = 9;
             this.BtnNextSearch.Tag = "Find next (Enter)";
             this.BtnNextSearch.UseVisualStyleBackColor = true;
+            this.BtnNextSearch.Click += new System.EventHandler(this.BtnNextSearch_Click);
             // 
             // BtnPrevSearch
             // 
@@ -173,6 +186,7 @@
             this.BtnPrevSearch.TabIndex = 8;
             this.BtnPrevSearch.Tag = "Find previous (Shift+Enter)";
             this.BtnPrevSearch.UseVisualStyleBackColor = true;
+            this.BtnPrevSearch.Click += new System.EventHandler(this.BtnPrevSearch_Click);
             // 
             // BtnCloseSearch
             // 
@@ -187,6 +201,7 @@
             this.BtnCloseSearch.TabIndex = 7;
             this.BtnCloseSearch.Tag = "Close (Esc)";
             this.BtnCloseSearch.UseVisualStyleBackColor = true;
+            this.BtnCloseSearch.Click += new System.EventHandler(this.BtnClearSearch_Click);
             // 
             // btnNewFile
             // 
@@ -196,7 +211,7 @@
             this.btnNewFile.Name = "btnNewFile";
             this.btnNewFile.Size = new System.Drawing.Size(23, 22);
             this.btnNewFile.Text = "Create new file";
-            this.btnNewFile.ToolTipText = "สร้างแฟ้มรายงานใหม่ <Ctrl + N>";
+            this.btnNewFile.ToolTipText = "สร้างแฟ้มรายงานใหม่จากต้นแบบรายงานมาตรฐาน <Ctrl + N>";
             this.btnNewFile.Click += new System.EventHandler(this.btnNewFile_Click);
             // 
             // btnOpenFile
@@ -230,7 +245,7 @@
             this.btnCloseFile.Name = "btnCloseFile";
             this.btnCloseFile.Size = new System.Drawing.Size(23, 22);
             this.btnCloseFile.Text = "Close";
-            this.btnCloseFile.ToolTipText = "ปิดแฟ้มรายงานนี้ <Ctrl + X>";
+            this.btnCloseFile.ToolTipText = "ปิดแฟ้มรายงานนี้";
             this.btnCloseFile.Click += new System.EventHandler(this.btnCloseFile_Click);
             // 
             // btnUndo
@@ -279,6 +294,27 @@
             this.btnCollapseAll.Text = "ย่อทั้งหมด";
             this.btnCollapseAll.Click += new System.EventHandler(this.btnCollapseAll_Click);
             // 
+            // btnRegister
+            // 
+            this.btnRegister.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.btnRegister.Image = global::PbiReportEditor.Properties.Resources.key;
+            this.btnRegister.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnRegister.Name = "btnRegister";
+            this.btnRegister.Size = new System.Drawing.Size(112, 22);
+            this.btnRegister.Text = "ลงทะเบียนโปรแกรม";
+            this.btnRegister.Click += new System.EventHandler(this.btnRegister_Click);
+            // 
+            // btnPreview
+            // 
+            this.btnPreview.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnPreview.Image = global::PbiReportEditor.Properties.Resources.preview_table_16;
+            this.btnPreview.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.btnPreview.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnPreview.Name = "btnPreview";
+            this.btnPreview.Size = new System.Drawing.Size(23, 22);
+            this.btnPreview.Text = "ดูตัวอย่างข้อมูล";
+            this.btnPreview.Click += new System.EventHandler(this.btnPreview_Click);
+            // 
             // FormReportEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -293,6 +329,7 @@
             this.Name = "FormReportEditor";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Report Editor";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormReportEditor_FormClosing);
             this.Load += new System.EventHandler(this.FormReportEditor_Load);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
@@ -327,5 +364,8 @@
         private System.Windows.Forms.ToolStripButton btnRedo;
         private System.Windows.Forms.ToolStripButton btnExpandAll;
         private System.Windows.Forms.ToolStripButton btnCollapseAll;
+        private System.Windows.Forms.ToolStripButton btnRegister;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripButton btnPreview;
     }
 }

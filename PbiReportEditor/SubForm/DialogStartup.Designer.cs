@@ -32,10 +32,9 @@
             this.label2 = new System.Windows.Forms.Label();
             this.btnOpen = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.txtCreateFilePath = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.btnBrowseFolder = new System.Windows.Forms.Button();
             this.btnCreate = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.btnClose = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -86,54 +85,19 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.btnCreate);
-            this.groupBox1.Controls.Add(this.txtCreateFilePath);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.btnBrowseFolder);
             this.groupBox1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
             this.groupBox1.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
             this.groupBox1.Location = new System.Drawing.Point(13, 112);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(579, 99);
+            this.groupBox1.Size = new System.Drawing.Size(579, 75);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "สร้างแฟ้มรายงานใหม่";
-            // 
-            // txtCreateFilePath
-            // 
-            this.txtCreateFilePath.Location = new System.Drawing.Point(18, 69);
-            this.txtCreateFilePath.Name = "txtCreateFilePath";
-            this.txtCreateFilePath.Size = new System.Drawing.Size(354, 23);
-            this.txtCreateFilePath.TabIndex = 2;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
-            this.label1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label1.Location = new System.Drawing.Point(22, 26);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(382, 32);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "คลิกที่ปุ่ม \"...\" ด้านล่างนี้ เพื่อเลือกโฟลเดอร์สำหรับเก็บแฟ้มรายงานใหม่\r\nและระบุ" +
-    "ชื่อแฟ้มที่ต้องการ จากนั้นคลิกปุ่ม \"สร้างแฟ้มรายงาน\"";
-            // 
-            // btnBrowseFolder
-            // 
-            this.btnBrowseFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnBrowseFolder.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
-            this.btnBrowseFolder.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnBrowseFolder.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnBrowseFolder.Location = new System.Drawing.Point(374, 68);
-            this.btnBrowseFolder.Name = "btnBrowseFolder";
-            this.btnBrowseFolder.Size = new System.Drawing.Size(29, 25);
-            this.btnBrowseFolder.TabIndex = 1;
-            this.btnBrowseFolder.Text = "...";
-            this.btnBrowseFolder.UseVisualStyleBackColor = true;
-            this.btnBrowseFolder.Click += new System.EventHandler(this.btnBrowseFolder_Click);
             // 
             // btnCreate
             // 
@@ -146,18 +110,43 @@
             this.btnCreate.Location = new System.Drawing.Point(419, 9);
             this.btnCreate.Name = "btnCreate";
             this.btnCreate.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
-            this.btnCreate.Size = new System.Drawing.Size(159, 88);
+            this.btnCreate.Size = new System.Drawing.Size(159, 64);
             this.btnCreate.TabIndex = 3;
             this.btnCreate.Text = "สร้างแฟ้มรายงาน <C>";
             this.btnCreate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnCreate.UseVisualStyleBackColor = true;
+            this.btnCreate.Click += new System.EventHandler(this.btnCreate_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
+            this.label1.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label1.Location = new System.Drawing.Point(22, 26);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(388, 32);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "คลิกที่ปุ่ม \"สร้างแฟ้มรายงาน\" เพื่อเลือกตำแหน่งที่จะเก็บแฟ้มรายงานใหม่\r\n(รายงานให" +
+    "ม่นี้สร้างจากต้นฉบับรายงานมาตรฐานของโปรแกรม)";
+            // 
+            // btnClose
+            // 
+            this.btnClose.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnClose.Location = new System.Drawing.Point(259, 198);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(90, 25);
+            this.btnClose.TabIndex = 3;
+            this.btnClose.Text = "ปิด <Esc>";
+            this.btnClose.UseVisualStyleBackColor = true;
             // 
             // DialogStartup
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(609, 231);
+            this.ClientSize = new System.Drawing.Size(609, 235);
             this.ControlBox = false;
+            this.Controls.Add(this.btnClose);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox2);
             this.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
@@ -183,8 +172,7 @@
         private System.Windows.Forms.Button btnOpen;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button btnBrowseFolder;
-        private System.Windows.Forms.TextBox txtCreateFilePath;
         private System.Windows.Forms.Button btnCreate;
+        private System.Windows.Forms.Button btnClose;
     }
 }

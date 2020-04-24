@@ -9,15 +9,20 @@ using System.Text;
 using System.Windows.Forms;
 using PbiReportEditor.Misc;
 using PbiReportEditor.Utils;
+using PbiReportEditor.SubForm;
 using ScintillaNET;
+using Newtonsoft.Json;
+using CC;
 
 namespace PbiReportEditor
 {
     public partial class FormReportEditor : Form
     {
-		private const string salt = "esg.co.th";
+		public const string salt = "esg.co.th";
 		private string curr_file_path = null;
 		private Scintilla TextArea;
+		private QueryModel query_model = null;
+		public string default_data_path = null;
 
         public FormReportEditor()
         {
@@ -57,7 +62,17 @@ namespace PbiReportEditor
 
             // INIT HOTKEYS
             InitHotkeys();
-        }
+
+
+			DialogStartup d = new DialogStartup();
+			if (d.ShowDialog() != DialogResult.OK)
+			{
+				this.Close();
+				return;
+			}
+
+			this.LoadDataFromFile(d.selected_file_path);
+		}
 
 		private void InitColors()
         {
@@ -83,13 +98,13 @@ namespace PbiReportEditor
 			HotKeyManager.AddHotKey(this, NewFile, Keys.N, true);
 			HotKeyManager.AddHotKey(this, OpenFile, Keys.O, true);
 			HotKeyManager.AddHotKey(this, SaveFile, Keys.S, true);
-			HotKeyManager.AddHotKey(this, CloseFile, Keys.X, true);
+			//HotKeyManager.AddHotKey(this, CloseFile, Keys.X, true);
 
 			// remove conflicting hotkeys from scintilla
 			TextArea.ClearCmdKey(Keys.Control | Keys.N);
 			TextArea.ClearCmdKey(Keys.Control | Keys.O);
 			TextArea.ClearCmdKey(Keys.Control | Keys.S);
-			TextArea.ClearCmdKey(Keys.Control | Keys.X);
+			//TextArea.ClearCmdKey(Keys.Control | Keys.X);
 			TextArea.ClearCmdKey(Keys.Control | Keys.F);
 
 			TextArea.ClearCmdKey(Keys.Control | Keys.R);
@@ -336,7 +351,7 @@ namespace PbiReportEditor
 
 		}
 
-		private void LoadDataFromFile(string path)
+		private void LoadDataFromFile(string path, bool set_path_as_current_file = true)
 		{
 			if (File.Exists(path))
 			{
@@ -344,8 +359,8 @@ namespace PbiReportEditor
 				{
 					this.TextArea.Text = File.ReadAllText(path).AES_Decrypt(salt);
 					this.TextArea.EmptyUndoBuffer();
-					this.curr_file_path = path;
-					lblFileName.Text = this.curr_file_path; //Path.GetFileName(path);
+					this.curr_file_path = set_path_as_current_file ? path : null;
+					lblFileName.Text = this.curr_file_path != null ? this.curr_file_path : string.Empty; //Path.GetFileName(path);
 					//this.btnSave.Enabled = true;
 					this.btnCloseFile.Enabled = true;
 					this.btnUndo.Enabled = true;
@@ -721,11 +736,11 @@ namespace PbiReportEditor
 					{
 						case DialogResult.Yes:
 							this.btnSave.PerformClick();
-							break;
+							return;
 						case DialogResult.No:
-							break;
+							return;
 						default:
-							return; ;
+							return;
 					}
 				}
 				this.LoadDataFromFile(ofd.FileName);
@@ -739,6 +754,12 @@ namespace PbiReportEditor
 
 		private void btnSave_Click(object sender, EventArgs e)
 		{
+			if (DialogRegister.IsRegister() == false)
+			{
+				MessageBox.Show("โปรแกรมชุดนี้ยังไม่ได้ลงทะเบียน ไม่สามารถบันทึกการเปลี่ยนแปลงได้", "", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				return;
+			}
+
 			try
 			{
 				if (this.curr_file_path != null)
@@ -748,6 +769,7 @@ namespace PbiReportEditor
 				else
 				{
 					SaveFileDialog sfd = new SaveFileDialog();
+					sfd.CheckFileExists = false;
 					sfd.Filter = "Report file(*.rpbi)|*.rpbi";
 					sfd.DefaultExt = "rpbi";
 					if (sfd.ShowDialog() == DialogResult.OK)
@@ -799,11 +821,23 @@ namespace PbiReportEditor
 
 		private void btnUndo_Click(object sender, EventArgs e)
 		{
+			if (!this.TextArea.CanUndo)
+			{
+				MessageBox.Show("There's no an action to Undo");
+				return;
+			}
+
 			this.TextArea.Undo();
 		}
 
 		private void btnRedo_Click(object sender, EventArgs e)
 		{
+			if (!this.TextArea.CanRedo)
+			{
+				MessageBox.Show("There's no an action to Redo");
+				return;
+			}
+
 			this.TextArea.Redo();
 		}
 
@@ -828,17 +862,22 @@ namespace PbiReportEditor
                 }
             }
 
-            this.curr_file_path = null;
-            //this.btnSave.Enabled = true;
-            this.btnCloseFile.Enabled = true;
-            this.btnUndo.Enabled = true;
-            this.btnRedo.Enabled = true;
-            this.btnExpandAll.Enabled = true;
-            this.btnCollapseAll.Enabled = true;
-            this.TextArea.Text = string.Empty;
-        }
+			this.curr_file_path = null;
+			this.btnCloseFile.Enabled = true;
+			this.btnUndo.Enabled = true;
+			this.btnRedo.Enabled = true;
+			this.btnExpandAll.Enabled = true;
+			this.btnCollapseAll.Enabled = true;
 
-        private void btnExpandAll_Click(object sender, EventArgs e)
+			if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"Sample\sample_rep.rpbi"))
+			{
+				MessageBox.Show("Cannot find sample report folder", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
+			this.LoadDataFromFile(AppDomain.CurrentDomain.BaseDirectory + @"Sample\sample_rep.rpbi", false);
+		}
+
+		private void btnExpandAll_Click(object sender, EventArgs e)
 		{
 			this.ExpandAll();
 		}
@@ -846,6 +885,48 @@ namespace PbiReportEditor
 		private void btnCollapseAll_Click(object sender, EventArgs e)
 		{
 			this.CollapseAll();
+		}
+
+		private void btnRegister_Click(object sender, EventArgs e)
+		{
+			DialogRegister dr = new DialogRegister();
+			dr.ShowDialog();
+		}
+
+		private void FormReportEditor_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			if((this.TextArea.Text.Trim().Length > 0 && this.curr_file_path == null) ||
+				(this.curr_file_path != null && File.ReadAllText(this.curr_file_path).AES_Decrypt(salt).CompareTo(this.TextArea.Text) != 0))
+			{
+				if(MessageBox.Show("ข้อมูลที่แก้ไขยังไม่ได้รับการบันทึก ต้องการปิดโปรแกรมโดยไม่บันทึกใช่หรือไม่?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+				{
+					e.Cancel = true;
+					return;
+				}
+			}
+		}
+
+		private void btnPreview_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				this.query_model = JsonConvert.DeserializeObject<QueryModel>(this.TextArea.Text);
+
+				if (this.query_model != null)
+				{
+					DialogReportScope scope = new DialogReportScope(this, this.query_model, this.default_data_path);
+					if(scope.ShowDialog() == DialogResult.OK)
+					{
+						DialogDisplayDataTable dt = new DialogDisplayDataTable(scope.data_table);
+						dt.ShowDialog();
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				XMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, XMessageBoxIcon.Error);
+				return;
+			}
 		}
 	}
 }

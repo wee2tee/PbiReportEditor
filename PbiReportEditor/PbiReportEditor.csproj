@@ -13,7 +13,7 @@
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +23,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -32,11 +32,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CC">
+      <HintPath>..\_DLL\CC.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="ScintillaNET">
       <HintPath>..\..\PbiReportEncDec\packages\jacobslusser.ScintillaNET.3.6.3\lib\net40\ScintillaNET.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -59,9 +66,78 @@
     <Compile Include="FormReportEditor.Designer.cs">
       <DependentUpon>FormReportEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="Misc\DbfModel.cs" />
     <Compile Include="Misc\Helper.cs" />
+    <Compile Include="Misc\QueryModel.cs" />
+    <Compile Include="Misc\ThaiStringCompareOrdinal.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SubForm\DialogDataPath.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SubForm\DialogDataPath.Designer.cs">
+      <DependentUpon>DialogDataPath.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SubForm\DialogDisplayDataTable.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SubForm\DialogDisplayDataTable.Designer.cs">
+      <DependentUpon>DialogDisplayDataTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SubForm\DialogInlineSearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SubForm\DialogInlineSearch.Designer.cs">
+      <DependentUpon>DialogInlineSearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SubForm\DialogRegister.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SubForm\DialogRegister.Designer.cs">
+      <DependentUpon>DialogRegister.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SubForm\DialogReportScope.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SubForm\DialogReportScope.Designer.cs">
+      <DependentUpon>DialogReportScope.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SubForm\DialogSelectApmas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SubForm\DialogSelectApmas.Designer.cs">
+      <DependentUpon>DialogSelectApmas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SubForm\DialogSelectArmas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SubForm\DialogSelectArmas.Designer.cs">
+      <DependentUpon>DialogSelectArmas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SubForm\DialogSelectGlacc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SubForm\DialogSelectGlacc.Designer.cs">
+      <DependentUpon>DialogSelectGlacc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SubForm\DialogSelectIstab.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SubForm\DialogSelectIstab.Designer.cs">
+      <DependentUpon>DialogSelectIstab.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SubForm\DialogSelectSlm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SubForm\DialogSelectSlm.Designer.cs">
+      <DependentUpon>DialogSelectSlm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SubForm\DialogSelectStmas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SubForm\DialogSelectStmas.Designer.cs">
+      <DependentUpon>DialogSelectStmas.cs</DependentUpon>
+    </Compile>
     <Compile Include="SubForm\DialogStartup.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -86,9 +162,43 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="SubForm\DialogDataPath.resx">
+      <DependentUpon>DialogDataPath.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SubForm\DialogDisplayDataTable.resx">
+      <DependentUpon>DialogDisplayDataTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SubForm\DialogInlineSearch.resx">
+      <DependentUpon>DialogInlineSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SubForm\DialogRegister.resx">
+      <DependentUpon>DialogRegister.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SubForm\DialogReportScope.resx">
+      <DependentUpon>DialogReportScope.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SubForm\DialogSelectApmas.resx">
+      <DependentUpon>DialogSelectApmas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SubForm\DialogSelectArmas.resx">
+      <DependentUpon>DialogSelectArmas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SubForm\DialogSelectGlacc.resx">
+      <DependentUpon>DialogSelectGlacc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SubForm\DialogSelectIstab.resx">
+      <DependentUpon>DialogSelectIstab.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SubForm\DialogSelectSlm.resx">
+      <DependentUpon>DialogSelectSlm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SubForm\DialogSelectStmas.resx">
+      <DependentUpon>DialogSelectStmas.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SubForm\DialogStartup.resx">
       <DependentUpon>DialogStartup.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -98,6 +208,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Sample\sample_rep.rpbi">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\folder_open_16.png" />
@@ -128,6 +241,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\collapse_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\key_register_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\key_register_161.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\key.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\preview_table_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\edit_16_color_2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
