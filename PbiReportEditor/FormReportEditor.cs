@@ -367,6 +367,7 @@ namespace PbiReportEditor
 					this.btnRedo.Enabled = true;
 					this.btnExpandAll.Enabled = true;
 					this.btnCollapseAll.Enabled = true;
+					this.btnPreview.Enabled = true;
 				}
 				catch (Exception ex)
 				{
@@ -815,6 +816,7 @@ namespace PbiReportEditor
 			this.btnRedo.Enabled = false;
 			this.btnExpandAll.Enabled = false;
 			this.btnCollapseAll.Enabled = false;
+			this.btnPreview.Enabled = false;
 			this.TextArea.Text = string.Empty;
 
 		}
@@ -868,6 +870,7 @@ namespace PbiReportEditor
 			this.btnRedo.Enabled = true;
 			this.btnExpandAll.Enabled = true;
 			this.btnCollapseAll.Enabled = true;
+			this.btnPreview.Enabled = true;
 
 			if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"Sample\sample_rep.rpbi"))
 			{
@@ -920,6 +923,11 @@ namespace PbiReportEditor
 						DialogDisplayDataTable dt = new DialogDisplayDataTable(scope.data_table);
 						dt.ShowDialog();
 					}
+				}
+				else
+				{
+					XMessageBox.Show("Syntax error", "Error", MessageBoxButtons.OK, XMessageBoxIcon.Error);
+					return;
 				}
 			}
 			catch (Exception ex)

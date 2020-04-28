@@ -30,7 +30,7 @@ namespace ExpressBI.SubForm
 
             if(this.init_accnum.Trim().Length > 0)
             {
-                var selected_row = this.dataGridView1.Rows.Cast<DataGridViewRow>().Where(r => ((string)r.Cells[this.col_accnum.Name].Value).CompareTo(this.init_accnum) >= 0).FirstOrDefault();
+                var selected_row = this.dataGridView1.Rows.Cast<DataGridViewRow>().Where(r => new ThaiStringComparerOrdinal().Compare((string)r.Cells[this.col_accnum.Name].Value,this.init_accnum) >= 0).FirstOrDefault();
                 if (selected_row != null)
                     selected_row.Cells[this.dataGridView1.FirstDisplayedScrollingColumnIndex].Selected = true;
             }

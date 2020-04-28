@@ -61,9 +61,10 @@
             this.label2.ForeColor = System.Drawing.SystemColors.ControlText;
             this.label2.Location = new System.Drawing.Point(21, 25);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(321, 32);
+            this.label2.Size = new System.Drawing.Size(369, 32);
             this.label2.TabIndex = 1;
-            this.label2.Text = "คลิกที่ปุ่ม \"เปิดแฟ้มรายงาน\" เพื่อเปิดแฟ้มรายงานที่มีอยู่แล้ว\r\nขึ้นมาทำการแก้ไข";
+            this.label2.Text = "คลิกที่ปุ่ม \"เปิดแฟ้มรายงาน\" เพื่อเปิดแฟ้มรายงาน(*.rpbi) ที่มีอยู่แล้ว\r\nขึ้นมาทำก" +
+    "ารแก้ไข";
             // 
             // btnOpen
             // 

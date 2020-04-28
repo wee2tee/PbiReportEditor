@@ -71,5 +71,10 @@ namespace PbiReportEditor.SubForm
 
             return base.ProcessCmdKey(ref msg, keyData);
         }
+
+        private void DialogDataPath_Shown(object sender, EventArgs e)
+        {
+            this.ActiveControl = this.txtPath;
+        }
     }
 }

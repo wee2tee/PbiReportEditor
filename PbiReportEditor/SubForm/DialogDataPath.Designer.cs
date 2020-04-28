@@ -52,7 +52,7 @@
             this.txtPath.Location = new System.Drawing.Point(83, 16);
             this.txtPath.Name = "txtPath";
             this.txtPath.Size = new System.Drawing.Size(345, 23);
-            this.txtPath.TabIndex = 1;
+            this.txtPath.TabIndex = 0;
             this.txtPath.TextChanged += new System.EventHandler(this.txtPath_TextChanged);
             // 
             // btnBrowse
@@ -61,7 +61,7 @@
             this.btnBrowse.Location = new System.Drawing.Point(428, 15);
             this.btnBrowse.Name = "btnBrowse";
             this.btnBrowse.Size = new System.Drawing.Size(32, 25);
-            this.btnBrowse.TabIndex = 2;
+            this.btnBrowse.TabIndex = 1;
             this.btnBrowse.Text = "...";
             this.btnBrowse.UseVisualStyleBackColor = true;
             this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
@@ -84,7 +84,7 @@
             this.btnCancel.Location = new System.Drawing.Point(251, 70);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(104, 27);
-            this.btnCancel.TabIndex = 2;
+            this.btnCancel.TabIndex = 3;
             this.btnCancel.Text = "ยกเลิก <Esc>";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
@@ -120,6 +120,7 @@
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "เลือกที่เก็บข้อมูล Express";
+            this.Shown += new System.EventHandler(this.DialogDataPath_Shown);
             this.ResumeLayout(false);
             this.PerformLayout();
 

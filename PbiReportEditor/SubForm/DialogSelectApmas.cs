@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using PbiReportEditor.Misc;
 
 namespace ExpressBI.SubForm
 {
@@ -30,7 +31,7 @@ namespace ExpressBI.SubForm
 
             if(this.init_supcod.Trim().Length > 0)
             {
-                var selected_row = this.dataGridView1.Rows.Cast<DataGridViewRow>().Where(r => ((string)r.Cells[this.col_supcod.Name].Value).CompareTo(this.init_supcod) >= 0).FirstOrDefault();
+                var selected_row = this.dataGridView1.Rows.Cast<DataGridViewRow>().Where(r => new ThaiStringComparerOrdinal().Compare(((string)r.Cells[this.col_supcod.Name].Value), this.init_supcod) >= 0).FirstOrDefault();
                 if (selected_row != null)
                     selected_row.Cells[this.dataGridView1.FirstDisplayedScrollingColumnIndex].Selected = true;
             }

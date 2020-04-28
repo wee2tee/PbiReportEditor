@@ -61,6 +61,7 @@ namespace PbiReportEditor.SubForm
                 {
                     this.DialogResult = DialogResult.Cancel;
                     this.Close();
+                    return;
                 }
             }
 
@@ -1603,7 +1604,8 @@ namespace PbiReportEditor.SubForm
             DialogDataPath d = new DialogDataPath(this.data_path);
             if(d.ShowDialog() == DialogResult.OK)
             {
-                this.data_path = d.data_path;
+                //this.data_path = d.data_path;
+                this.txtPath.Text = d.data_path;
                 this.PrepareNecessaryData();
                 this.ClearControlScope();
                 this.ShowControlScope(this.query_model);

@@ -29,7 +29,7 @@ namespace ExpressBI.SubForm
             this.dataGridView1.DataSource = this.binding_list;
             if(this.init_typcod.Trim().Length > 0)
             {
-                var selected_row = this.dataGridView1.Rows.Cast<DataGridViewRow>().Where(r => ((string)r.Cells[this.col_typcod.Name].Value).CompareTo(this.init_typcod) >= 0).FirstOrDefault();
+                var selected_row = this.dataGridView1.Rows.Cast<DataGridViewRow>().Where(r => new ThaiStringComparerOrdinal().Compare((string)r.Cells[this.col_typcod.Name].Value, this.init_typcod) >= 0).FirstOrDefault();
                 if (selected_row != null)
                     this.dataGridView1.Rows[selected_row.Index].Cells[this.dataGridView1.FirstDisplayedScrollingColumnIndex].Selected = true;
             }
